@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehiclePosition.Data", "Veh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehiclePosition.Service", "VehiclePosition.Service\VehiclePosition.Service.csproj", "{02594BC4-34DD-4217-8CF7-2DEE84C2B744}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehiclePosition.Model", "VehiclePosition.Model\VehiclePosition.Model.csproj", "{2766E496-EDCF-4EB2-B2C3-61DDC163164C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{02594BC4-34DD-4217-8CF7-2DEE84C2B744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02594BC4-34DD-4217-8CF7-2DEE84C2B744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02594BC4-34DD-4217-8CF7-2DEE84C2B744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2766E496-EDCF-4EB2-B2C3-61DDC163164C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2766E496-EDCF-4EB2-B2C3-61DDC163164C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2766E496-EDCF-4EB2-B2C3-61DDC163164C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2766E496-EDCF-4EB2-B2C3-61DDC163164C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
