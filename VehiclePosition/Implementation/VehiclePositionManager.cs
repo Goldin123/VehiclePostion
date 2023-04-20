@@ -12,7 +12,7 @@ namespace VehiclePosition.Implementation
     {
         private readonly IVehicleService _vehicleService;
 
-        public VehiclePositionManager(IVehicleService vehicleService) 
+        public VehiclePositionManager(IVehicleService vehicleService)
         {
             _vehicleService = vehicleService;
         }
@@ -30,8 +30,13 @@ namespace VehiclePosition.Implementation
                     var requests = await _vehicleService.GenerateVehicleSearchRequestAsync();
                     if (requests.Item1?.Count() > 0)
                     {
-                        Console.WriteLine($"{requests.Item2}\nPerforming Search......");
-                        var performSearch = await _vehicleService.SearchWithKDTreeAsync(vehicles, requests.Item1);
+                        string performSearch = string.Empty;
+                        Console.WriteLine($"{requests.Item2}\nPerforming Search with KD Tree......");
+                        performSearch = await _vehicleService.SearchWithKDTreeAsync(vehicles, requests.Item1);
+                        Console.WriteLine($"{performSearch}");
+                        Console.WriteLine($"Performing Search with Haversine Formula......");
+                        performSearch = string.Empty;
+                        performSearch = await _vehicleService.PerformSearchHaversineFormulaAsync(vehicles, requests.Item1);
                         Console.WriteLine($"{performSearch}");
                     }
                     else
@@ -41,7 +46,7 @@ namespace VehiclePosition.Implementation
                 Console.ReadLine();
                 await Task.CompletedTask;
             }
-            catch 
+            catch
             {
                 Console.WriteLine("Application is currently unavailable.....");
                 await Task.CompletedTask;

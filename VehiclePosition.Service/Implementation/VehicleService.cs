@@ -16,6 +16,8 @@ namespace VehiclePosition.Service.Implementation
     public class VehicleService : IVehicleService
     {
         private readonly IVehiclePostionData _vehiclePostionData;
+        private const double _maxDistance = 400;
+        private const double _earthRadius = 6371; 
         private Stopwatch _stopwatch = new Stopwatch();
         public VehicleService(IVehiclePostionData vehiclePostionData ) 
         {
@@ -73,7 +75,7 @@ namespace VehiclePosition.Service.Implementation
                 var vehicleTree = await SetVehicleTreeAync(vehicles);
                 results.Append(vehicleTree.Item2);
 
-                var perfomSerch = await PerformKDTreeSearch(vehicleTree.Item1, vehicleSearchRequests);
+                var perfomSerch = await PerformKDTreeSearchAsync(vehicleTree.Item1, vehicleSearchRequests);
                 results.Append($"\n{perfomSerch}");
                 return results.ToString();
             }catch (Exception ex) { return ex.Message; }
@@ -100,7 +102,7 @@ namespace VehiclePosition.Service.Implementation
             }
         }
 
-        async Task<string> PerformKDTreeSearch(KdTree<float, Vehicle> tree, IList<VehicleSearchRequest> vehicleSearchRequests)
+        async Task<string> PerformKDTreeSearchAsync(KdTree<float, Vehicle> tree, IList<VehicleSearchRequest> vehicleSearchRequests)
         {
             try
             {
@@ -109,13 +111,80 @@ namespace VehiclePosition.Service.Implementation
                 _stopwatch.Start();
                 foreach (var vehicleRequest in vehicleSearchRequests)
                 {
-                    var closest = tree.GetNearestNeighbours(new[] { vehicleRequest.Latutude, vehicleRequest.Latutude }, 1).FirstOrDefault();
-                    if (closest != null)
-                        foundVehicles.Add(closest.Value);
+                    var nearest = tree.GetNearestNeighbours(vehicleRequest.Point, 1).FirstOrDefault();
+                    if (nearest != null)
+                    {
+                        var vehicle = nearest.Value;
+                        foundVehicles.Add(nearest.Value);
+                    }
                 }
+                _stopwatch.Stop();
                 return $" Found {foundVehicles.Count} in {_stopwatch.Elapsed.TotalSeconds} seconds using KDTree.";
             }
             catch (Exception ex) { return ex.Message; }
+        }
+
+
+        public async Task<string> PerformSearchHaversineFormulaAsync(IList<Vehicle> vehicles, IList<VehicleSearchRequest> vehicleSearchRequests) 
+        {
+            try
+            {
+                var foundVehicles = new List<Vehicle>();
+                _stopwatch.Reset();
+                _stopwatch.Start();
+                foundVehicles = await HaversineFormulaSearchAsync(vehicles, vehicleSearchRequests);
+                _stopwatch.Stop();
+                return $" Found {foundVehicles.Count} in {_stopwatch.Elapsed.TotalSeconds} seconds using Haversine formula.";
+            }
+            catch (Exception ex) { return ex.Message; }
+        }
+        public async Task<List<Vehicle>> HaversineFormulaSearchAsync(IList<Vehicle> vehicles, IList<VehicleSearchRequest> vehicleRequests)
+        {
+            List<Vehicle> foundVehicles = new List<Vehicle>();
+
+            foreach (var request in vehicleRequests)
+            {
+                double maxDistance = _maxDistance;
+                foreach (var vehicle in vehicles)
+                {
+                    double distance = HaversineFormula(request, vehicle);
+                    if (distance <= maxDistance)
+                    {
+                        var loadedVehicle = foundVehicles.Where(a => a.RequestedLatitude == request.Latitude && a.RequestedLongitude == request.Longitude).FirstOrDefault();
+                        if (loadedVehicle != null)
+                            foundVehicles.Remove(loadedVehicle);
+
+                        vehicle.Distance = distance;
+                        vehicle.RequestedLatitude = request.Latitude;
+                        vehicle.RequestedLongitude = request.Longitude;
+                        foundVehicles.Add(vehicle);
+                        maxDistance = distance;
+                    }
+                }
+            }
+
+            return foundVehicles;
+
+        }
+
+        private double HaversineFormula(VehicleSearchRequest request, Vehicle vehicle)
+        {
+            double request1 = request.Longitude * Math.PI / 180;
+            double request2 = request.Latitude * Math.PI / 180;
+            double vehicle1 = vehicle.Latitude * Math.PI / 180;
+            double vehicle2 = vehicle.Longitude * Math.PI / 180;
+
+            double dLat = vehicle1 - request1;
+            double dLon = vehicle2 - request2;
+
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(request1) * Math.Cos(vehicle1) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            double distance = _earthRadius * c;
+            return distance;
         }
     }
 }

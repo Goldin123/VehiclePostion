@@ -12,5 +12,6 @@ namespace VehiclePosition.Service.Interface
         Task<Tuple<IList<Vehicle>, string>> GetVehiclesDataAsync();
         Task<string> SearchWithKDTreeAsync(IList<Vehicle> vehicles, IList<VehicleSearchRequest> vehicleSearchRequests);
         Task<Tuple<IList<VehicleSearchRequest>,string>> GenerateVehicleSearchRequestAsync();
+        Task<string> PerformSearchHaversineFormulaAsync(IList<Vehicle> vehicles, IList<VehicleSearchRequest> vehicleSearchRequests);
     }
 }
