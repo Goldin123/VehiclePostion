@@ -2,25 +2,34 @@
 //Console.WriteLine("Hello, World!");
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VehiclePosition.Data.Implementation;
+using VehiclePosition.Data.Interface;
 using VehiclePosition.Implementation;
 using VehiclePosition.Interface;
+using VehiclePosition.Service.Implementation;
+using VehiclePosition.Service.Interface;
 
-namespace VehiclePosition 
+
+try
 {
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            using IHost host = Host.CreateDefaultBuilder(args)
-                             .ConfigureServices(services =>
-                                  {
-                                    services.AddSingleton<IVehiclePosition, VehiclePositionApp>();
-                                   }
-                                  ).Build();
+    using IHost host = Host.CreateDefaultBuilder(args)
+                                 .ConfigureServices(services =>
+                                      {
+                                          _ = services.AddSingleton<IVehiclePositionManager, VehiclePositionManager>();
+                                          _ = services.AddSingleton<IVehicleService, VehicleService>();
+                                          _ = services.AddSingleton<IVehiclePostionData, VehiclePostionData>();
+                                      }
+                                      ).Build();
 
-            var vehiclePos = host.Services.GetService<IVehiclePosition>();
-            await vehiclePos.DoWork();
-            await host.RunAsync();
-        }
-    }
+   var vehiclePos = host.Services.GetService<IVehiclePositionManager>();
+
+    if (vehiclePos != null)
+        await vehiclePos.DoWork();
+
+    await host.RunAsync();
+    Environment.Exit(0);
+
+}
+catch
+{
 }

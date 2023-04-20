@@ -12,4 +12,10 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VehiclePosition.Data\VehiclePosition.Data.csproj" />
+    <ProjectReference Include="..\VehiclePosition.Model\VehiclePosition.Model.csproj" />
+    <ProjectReference Include="..\VehiclePosition.Service\VehiclePosition.Service.csproj" />
+  </ItemGroup>
+
 </Project>
