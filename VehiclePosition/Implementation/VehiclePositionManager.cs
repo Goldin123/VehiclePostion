@@ -19,8 +19,10 @@ namespace VehiclePosition.Implementation
 
         public async Task DoWork()
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("Application Starting.....");
             var vehiclesData = await _vehicleService.GetVehiclesData();
+            Console.WriteLine($"{vehiclesData.Item2}");
+            Console.WriteLine("Application Stopping.....");
             Console.ReadLine();
             await Task.CompletedTask;
         }

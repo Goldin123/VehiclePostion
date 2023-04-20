@@ -12,7 +12,7 @@ namespace VehiclePosition.Model
         public string? VehicleRegistration { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
-        public long RecordedTimeUTC { get; set; }
+        public Int64 RecordedTimeUTC { get; set; }
         public float[] Point { get { return new[] { Latitude, Longitude }; } }
     }
 }

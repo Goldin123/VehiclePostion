@@ -9,6 +9,6 @@ namespace VehiclePosition.Service.Interface
 {
     public interface IVehicleService
     {
-        Task<IList<Vehicle>> GetVehiclesData(); 
+        Task<Tuple<IList<Vehicle>, string>> GetVehiclesData(); 
     }
 }

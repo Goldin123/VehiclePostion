@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,13 @@ namespace VehiclePosition.Service.Implementation
             _vehiclePostionData = vehiclePostionData;
         }
 
-        public async Task<IList<Vehicle>> GetVehiclesData() 
+        public async Task<Tuple<IList<Vehicle>,string>> GetVehiclesData() 
         {
-            return await _vehiclePostionData.GetVehicles();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var data = await _vehiclePostionData.GetVehicles();
+            sw.Stop();
+            return new Tuple<IList<Vehicle>, string>(data,$"Fetched {data.Count} records in {sw.Elapsed.TotalSeconds} seconds.");
         }
     }
 }
