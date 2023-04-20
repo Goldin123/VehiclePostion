@@ -14,7 +14,7 @@ namespace VehiclePosition.Data.Implementation
     {
         private readonly string dataFilePath = $"{Path.GetFullPath(Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"../../../../"))}VehiclePosition.Data\\Data\\{ConfigurationManager.AppSettings["FileName"]}";
         private const long maxRecords = 2000000;
-        public Task<IList<Vehicle>> GetVehicles()
+        public Task<IList<Vehicle>> GetVehiclesAsync()
         {
 
             var list = new List<Vehicle>();

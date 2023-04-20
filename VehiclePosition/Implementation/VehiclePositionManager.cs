@@ -19,12 +19,23 @@ namespace VehiclePosition.Implementation
 
         public async Task DoWork()
         {
-            Console.WriteLine("Application Starting.....");
-            var vehiclesData = await _vehicleService.GetVehiclesData();
-            Console.WriteLine($"{vehiclesData.Item2}");
-            Console.WriteLine("Application Stopping.....");
-            Console.ReadLine();
-            await Task.CompletedTask;
+            try
+            {
+                Console.WriteLine("Application Starting.....");
+                var vehiclesData = await _vehicleService.GetVehiclesDataAsync();
+                Console.WriteLine($"{vehiclesData.Item2}");
+                if (vehiclesData.Item1?.Count() > 0)
+                {
+
+                }
+                Console.WriteLine("Application Stopping.....");
+                Console.ReadLine();
+                await Task.CompletedTask;
+            }
+            catch 
+            {
+
+            }
         }
     }
 }

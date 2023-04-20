@@ -9,6 +9,6 @@ namespace VehiclePosition.Data.Interface
 {
     public interface IVehiclePostionData
     {
-        Task<IList<Vehicle>> GetVehicles();
+        Task<IList<Vehicle>> GetVehiclesAsync();
     }
 }
