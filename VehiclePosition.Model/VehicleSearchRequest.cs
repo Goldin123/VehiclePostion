@@ -11,7 +11,7 @@ namespace VehiclePosition.Model
         public float Longitude { get; set; }
         public float Latitude { get; set; }
 
-        public float[] Point { get { return new[] { Latitude, Longitude }; } }
+        public float[] Point { get { return new[] { Longitude, Latitude }; } }
 
         public VehicleSearchRequest( float longitude , float latitude) 
         {

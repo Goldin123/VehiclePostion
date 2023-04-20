@@ -109,9 +109,9 @@ namespace VehiclePosition.Service.Implementation
                 List<Vehicle> foundVehicles = new List<Vehicle>();
                 _stopwatch.Reset();
                 _stopwatch.Start();
-                foreach (var vehicleRequest in vehicleSearchRequests)
+                foreach (var request in vehicleSearchRequests)
                 {
-                    var nearest = tree.GetNearestNeighbours(vehicleRequest.Point, 1).FirstOrDefault();
+                    var nearest = tree.GetNearestNeighbours(request.Point, 1).FirstOrDefault();
                     if (nearest != null)
                     {
                         var vehicle = nearest.Value;
