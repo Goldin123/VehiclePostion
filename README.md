@@ -1,6 +1,6 @@
 <h1 align="center">Hi 👋, I'm Goldin Nyiko Baloyi</h1>
 <h3 align="center">(A passionate full-stack developer from Sandton [SA])</h3>
-<p>This is a project the gets the closest vehicle postion given a set 10 longitude and latitude obejects. The search is perfomed is 2 ways, using KD Tree library and also using Haversine formula.</P>
+<p>This is a project that get's the closest vehicle postions given 10 longitude and latitude set objects in the shortest amount of time. The search is perfomed is 2 ways, using KD Tree library and also using Haversine formula.</P>
 <h4>Getting started..</h4>
 <ul>
   <li>This is a .net 7 application, make sure you on visual studio 2022 with the latest update, </li>
