@@ -32,7 +32,7 @@ namespace VehiclePosition.Data.Implementation
                             var item = new Vehicle
                             {
                                 PositionId = reader.ReadInt32(),
-                                VehicleRegistration = GetNullTerminatedString(reader),
+                                VehicleRegistration = GetNullTerminatedString(reader),                               
                                 Latitude = reader.ReadSingle(),
                                 Longitude = reader.ReadSingle(),
                                 RecordedTimeUTC = reader.ReadInt64()

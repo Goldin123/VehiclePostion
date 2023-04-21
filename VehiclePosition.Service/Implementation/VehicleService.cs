@@ -119,7 +119,7 @@ namespace VehiclePosition.Service.Implementation
                     }
                 }
                 _stopwatch.Stop();
-                return $" Found {foundVehicles.Count} in {_stopwatch.Elapsed.TotalSeconds} seconds using KDTree.";
+                return $" Found {foundVehicles.Count} requests in {_stopwatch.Elapsed.TotalSeconds} seconds using KDTree.";
             }
             catch (Exception ex) { return ex.Message; }
         }
@@ -134,7 +134,7 @@ namespace VehiclePosition.Service.Implementation
                 _stopwatch.Start();
                 foundVehicles = await HaversineFormulaSearchAsync(vehicles, vehicleSearchRequests);
                 _stopwatch.Stop();
-                return $" Found {foundVehicles.Count} in {_stopwatch.Elapsed.TotalSeconds} seconds using Haversine formula.";
+                return $" Found {foundVehicles.Count} requests in {_stopwatch.Elapsed.TotalSeconds} seconds using Haversine formula.";
             }
             catch (Exception ex) { return ex.Message; }
         }
@@ -169,16 +169,16 @@ namespace VehiclePosition.Service.Implementation
 
         private double HaversineFormula(VehicleSearchRequest request, Vehicle vehicle)
         {
-            double request1 = request.Longitude * Math.PI / 180;
-            double request2 = request.Latitude * Math.PI / 180;
-            double vehicle1 = vehicle.Latitude * Math.PI / 180;
-            double vehicle2 = vehicle.Longitude * Math.PI / 180;
+            double latitudeRequest1 = request.Latitude * Math.PI / 180;
+            double longitudeRequest2 = request.Longitude * Math.PI / 180;
+            double vehicleLatitude1 = vehicle.Latitude * Math.PI / 180;
+            double vehicleLongitude2 = vehicle.Longitude * Math.PI / 180;
 
-            double dLat = vehicle1 - request1;
-            double dLon = vehicle2 - request2;
+            double dLat = vehicleLatitude1 - latitudeRequest1;
+            double dLon = vehicleLongitude2 - longitudeRequest2;
 
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                       Math.Cos(request1) * Math.Cos(vehicle1) *
+                       Math.Cos(latitudeRequest1) * Math.Cos(vehicleLatitude1) *
                        Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
 
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
