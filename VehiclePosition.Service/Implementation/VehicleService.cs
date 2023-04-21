@@ -2,6 +2,7 @@
 using KdTree.Math;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,8 @@ namespace VehiclePosition.Service.Implementation
     public class VehicleService : IVehicleService
     {
         private readonly IVehiclePostionData _vehiclePostionData;
-        private const double _maxDistance = 400;
-        private const double _earthRadius = 6371; 
+        private readonly double _maxDistance = Convert.ToDouble(ConfigurationManager.AppSettings["MaxDistance"]);
+        private readonly double _earthRadius = Convert.ToDouble(ConfigurationManager.AppSettings["EarthRadius"]);
         private Stopwatch _stopwatch = new Stopwatch();
         public VehicleService(IVehiclePostionData vehiclePostionData ) 
         {

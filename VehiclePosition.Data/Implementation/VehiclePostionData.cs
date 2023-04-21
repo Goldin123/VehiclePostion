@@ -12,22 +12,22 @@ namespace VehiclePosition.Data.Implementation
 {
     public class VehiclePostionData : IVehiclePostionData
     {
-        private readonly string dataFilePath = $"{Path.GetFullPath(Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"../../../../"))}VehiclePosition.Data\\Data\\{ConfigurationManager.AppSettings["FileName"]}";
-        private const long maxRecords = 2000000;
+        private readonly string _dataFilePath = $"{Path.GetFullPath(Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"../../../../"))}{ConfigurationManager.AppSettings["FileName"]}";
+        private readonly long _maxRecords = Convert.ToInt64(ConfigurationManager.AppSettings["MaxRecords"]);
         public Task<IList<Vehicle>> GetVehiclesAsync()
         {
 
             var list = new List<Vehicle>();
             try
             {
-                if (!File.Exists(dataFilePath))
+                if (!File.Exists(_dataFilePath))
                     return Task.FromResult<IList<Vehicle>>(list);
 
-                using (var stream = new FileStream(dataFilePath, FileMode.Open))
+                using (var stream = new FileStream(_dataFilePath, FileMode.Open))
                 {
                     using (var reader = new BinaryReader(stream))
                     {
-                        for (int i = 0; i < maxRecords; i++)
+                        for (int i = 0; i < _maxRecords; i++)
                         {
                             var item = new Vehicle
                             {
