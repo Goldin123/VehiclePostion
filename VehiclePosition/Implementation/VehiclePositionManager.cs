@@ -31,12 +31,8 @@ namespace VehiclePosition.Implementation
                     if (requests.Item1?.Count() > 0)
                     {
                         string performSearch = string.Empty;
-                        Console.WriteLine($"{requests.Item2}\nPerforming Search with KD Tree......");
-                        performSearch = await _vehicleService.SearchWithKDTreeAsync(vehicles, requests.Item1);
-                        Console.WriteLine($"{performSearch}");
-                        Console.WriteLine($"Performing Search with Haversine Formula......");
                         performSearch = string.Empty;
-                        performSearch = await _vehicleService.PerformSearchHaversineFormulaAsync(vehicles, requests.Item1);
+                        performSearch = await _vehicleService.CustomNearestVehiclePositions(vehicles, requests.Item1);
                         Console.WriteLine($"{performSearch}");
                     }
                     else
