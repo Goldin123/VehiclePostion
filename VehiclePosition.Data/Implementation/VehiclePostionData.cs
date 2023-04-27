@@ -16,7 +16,6 @@ namespace VehiclePosition.Data.Implementation
         private readonly long _maxRecords = Convert.ToInt64(ConfigurationManager.AppSettings["MaxRecords"]);
         public Task<IList<Vehicle>> GetVehiclesAsync()
         {
-
             var list = new List<Vehicle>();
             try
             {
@@ -41,7 +40,7 @@ namespace VehiclePosition.Data.Implementation
                         }
                     }
                 }
-
+                list = list.OrderBy(a=>a.Latitude).ToList();
                 return Task.FromResult<IList<Vehicle>>(list);
             }
             catch
@@ -49,7 +48,6 @@ namespace VehiclePosition.Data.Implementation
                 return Task.FromResult<IList<Vehicle>>(list);
             }
         }
-
         string GetNullTerminatedString(BinaryReader reader)
         {
             var sb = new System.Text.StringBuilder();
